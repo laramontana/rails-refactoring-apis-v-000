@@ -2,9 +2,9 @@ class SessionsController < ApplicationController
   skip_before_action :authenticate_user, only: :create
 
   def create
-    binding.pry
-    session[:token] = GithubService.new.authenticate!(ENV["GITHUB_CLIENT"], ENV["GITHUB_SECRET"], params[:code])
-    session[:username] = GithubService.new.get_username
+    service = GithubService.new
+    session[:token] = service.authenticate!(ENV["GITHUB_CLIENT"], ENV["GITHUB_SECRET"], params[:code])
+    session[:username] = service.get_username
 
     redirect_to '/'
   end
